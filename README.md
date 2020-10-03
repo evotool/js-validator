@@ -2,6 +2,8 @@
 
 Strict nodejs validator
 
+![@evojs/validator npm version](https://img.shields.io/npm/v/@evojs/validator.svg) ![supported node version for @evojs/validator](https://img.shields.io/node/v/@evojs/validator.svg) ![total npm downloads for @evojs/validator](https://img.shields.io/npm/dt/@evojs/validator.svg) ![monthly npm downloads for @evojs/validator](https://img.shields.io/npm/dm/@evojs/validator.svg) ![npm licence for @evojs/validator](https://img.shields.io/npm/l/@evojs/validator.svg)
+
 ## Usage example
 
 ```typescript
