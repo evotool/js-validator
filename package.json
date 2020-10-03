@@ -1,13 +1,13 @@
 {
 	"name": "@evojs/validator",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Strict nodejs validator",
 	"main": "index.js",
 	"typings": "index.d.ts",
 	"scripts": {
 		"prebuild": "rm -rf dist/",
 		"build": "tsc --diagnostics --project tsconfig.build.json && node build.js",
-		"prepublishOnly": "npm run build && node prepublish.js",
+		"prepublishOnly": "npm run build && npm run test && node prepublish.js",
 		"release": "RELEASE_MODE=1 npm run prepublishOnly && npm publish --access public dist/",
 		"test": "jest --coverage --detectOpenHandles",
 		"fix": "eslint \"src/**/*.ts\" --fix --ext .ts",
@@ -15,7 +15,6 @@
 	},
 	"dependencies": {
 		"assert": "^2.0.0",
-		"reflect-metadata": "^0.1.13",
 		"util": "^0.12.3"
 	},
 	"devDependencies": {
