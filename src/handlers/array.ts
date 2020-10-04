@@ -1,5 +1,5 @@
 import { validate } from '../validate';
-import { DefaultRule, ValidationRule } from '../validation-handlers';
+import type { DefaultRule, ValidationRule } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
 export default (x: unknown, rule: Partial<ArrayRule>, propertyPath: string, isQuery?: boolean): any[] => {

@@ -1,4 +1,4 @@
-import { DefaultRule } from '../validation-handlers';
+import type { DefaultRule } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
 export default (x: unknown, rule: Partial<DateRule>, propertyPath: string): Date => {
