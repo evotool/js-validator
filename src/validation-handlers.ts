@@ -23,6 +23,8 @@ export interface DefaultRule<T = any> {
 	optional?: boolean;
 }
 
+export { ArrayRule, BooleanRule, DateRule, NumberRule, ObjectRule, StringRule };
+
 export type PrimitiveRule<T = any> =
 | DefaultRule<T>
 | BooleanRule<T>
