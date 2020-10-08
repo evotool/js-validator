@@ -1,16 +1,18 @@
 
-import { ValidationError, deepEqual, validate } from '../src';
+import { isDeepStrictEqual } from 'util';
+
+import { ValidationError, validate } from '../src';
 
 describe('object', () => {
 	it('should resolve all objects', (done) => {
-		expect(deepEqual(validate({}, { type: 'object' }), {})).toBeTruthy();
-		expect(deepEqual(validate({ test: 'test' }, { type: 'object' }), {})).toBeTruthy();
-		expect(deepEqual(validate({ test: 'test' }, { type: 'object', nested: { type: 'string' } }), { test: 'test' })).toBeTruthy();
-		expect(deepEqual(validate({ test: null }, { type: 'object', nested: { type: 'string', optional: true } }), { })).toBeTruthy();
-		expect(deepEqual(validate({ test: 'test' }, { type: 'object', schema: { test: { type: 'string' } } }), { test: 'test' })).toBeTruthy();
-		expect(deepEqual(validate({}, { type: 'object', schema: { test: { type: 'string', optional: true } } }), {})).toBeTruthy();
-		expect(deepEqual(validate(new Error(), { type: 'object' }), {})).toBeTruthy();
-		expect(deepEqual(validate(new Date(), { type: 'object' }), {})).toBeTruthy();
+		expect(isDeepStrictEqual(validate({}, { type: 'object' }), {})).toBeTruthy();
+		expect(isDeepStrictEqual(validate({ test: 'test' }, { type: 'object' }), {})).toBeTruthy();
+		expect(isDeepStrictEqual(validate({ test: 'test' }, { type: 'object', nested: { type: 'string' } }), { test: 'test' })).toBeTruthy();
+		expect(isDeepStrictEqual(validate({ test: null }, { type: 'object', nested: { type: 'string', optional: true } }), { })).toBeTruthy();
+		expect(isDeepStrictEqual(validate({ test: 'test' }, { type: 'object', schema: { test: { type: 'string' } } }), { test: 'test' })).toBeTruthy();
+		expect(isDeepStrictEqual(validate({}, { type: 'object', schema: { test: { type: 'string', optional: true } } }), {})).toBeTruthy();
+		expect(isDeepStrictEqual(validate(new Error(), { type: 'object' }), {})).toBeTruthy();
+		expect(isDeepStrictEqual(validate(new Date(), { type: 'object' }), {})).toBeTruthy();
 		expect(validate(new Date(), { type: 'object', instanceOf: Date })).toBeInstanceOf(Date);
 		expect(validate(new Error(), { type: 'object', instanceOf: Error })).toBeInstanceOf(Error);
 		expect(validate({ message: 'test' }, { type: 'object', instanceOf: Error })).toBeInstanceOf(Error);
@@ -19,7 +21,7 @@ describe('object', () => {
 		expect(output).toBeInstanceOf(Error);
 		expect(output.message).toBe('test');
 
-		expect(deepEqual(validate(/asd/g, { type: 'object' }), {})).toBeTruthy();
+		expect(isDeepStrictEqual(validate(/asd/g, { type: 'object' }), {})).toBeTruthy();
 		done();
 	});
 

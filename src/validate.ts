@@ -1,5 +1,6 @@
+import { isDeepStrictEqual } from 'util';
+
 /* eslint-disable no-throw-literal */
-import { deepEqual } from './deep-equal';
 import { PrimitiveRule, ValidationHandlers, ValidationRule } from './validation-handlers';
 import { ValidationError } from './ValidationError';
 
@@ -26,7 +27,7 @@ function validatePrimitive(x: unknown, rule: PrimitiveRule, propertyPath: string
 
 			if (x === void 0) {
 				x = defaultValue;
-			} else if (!deepEqual(x, defaultValue)) {
+			} else if (!isDeepStrictEqual(x, defaultValue)) {
 				throw void 0;
 			}
 		} catch {

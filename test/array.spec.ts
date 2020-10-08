@@ -1,12 +1,14 @@
 
-import { ValidationError, deepEqual, validate } from '../src';
+import { isDeepStrictEqual } from 'util';
+
+import { ValidationError, validate } from '../src';
 
 describe('array', () => {
 	it('should resolve all arrays', (done) => {
-		expect(deepEqual(validate([], { type: 'array' }), [])).toBeTruthy();
-		expect(deepEqual(validate([1, 2], { type: 'array', nested: { type: 'number' } }), [1, 2])).toBeTruthy();
-		expect(deepEqual(validate(['  test  '], { type: 'array', nested: { type: 'string', trim: true } }), ['test'])).toBeTruthy();
-		expect(deepEqual(validate(['1', { hello: ' world  ' }], {
+		expect(isDeepStrictEqual(validate([], { type: 'array' }), [])).toBeTruthy();
+		expect(isDeepStrictEqual(validate([1, 2], { type: 'array', nested: { type: 'number' } }), [1, 2])).toBeTruthy();
+		expect(isDeepStrictEqual(validate(['  test  '], { type: 'array', nested: { type: 'string', trim: true } }), ['test'])).toBeTruthy();
+		expect(isDeepStrictEqual(validate(['1', { hello: ' world  ' }], {
 			type: 'array',
 			nested: [
 				{ type: 'object', nested: { type: 'string', trim: true } },
@@ -17,10 +19,10 @@ describe('array', () => {
 	});
 
 	it('should resolve all non-arrays', (done) => {
-		expect(deepEqual(validate('test', { type: 'array' }, undefined, true), ['test'])).toBeTruthy();
-		expect(deepEqual(validate('', { type: 'array' }, undefined, true), [''])).toBeTruthy();
-		expect(deepEqual(validate('', { type: 'array', default: null }, undefined, true), [''])).toBeTruthy();
-		expect(deepEqual(validate(void 0, { type: 'array', default: null, parse: () => [] }), [])).toBeTruthy();
+		expect(isDeepStrictEqual(validate('test', { type: 'array' }, undefined, true), ['test'])).toBeTruthy();
+		expect(isDeepStrictEqual(validate('', { type: 'array' }, undefined, true), [''])).toBeTruthy();
+		expect(isDeepStrictEqual(validate('', { type: 'array', default: null }, undefined, true), [''])).toBeTruthy();
+		expect(isDeepStrictEqual(validate(void 0, { type: 'array', default: null, parse: () => [] }), [])).toBeTruthy();
 
 		expect(validate(undefined, { type: 'array', default: null })).toBeNull();
 		expect(validate(undefined, { type: 'array', optional: true })).toBeUndefined();
