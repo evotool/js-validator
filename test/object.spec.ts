@@ -19,7 +19,7 @@ describe('object', () => {
 
 		const output = validate({ message: 'test' }, { type: 'object', schema: { message: { type: 'string' } }, parse: (x) => new Error(x.message) });
 		expect(output).toBeInstanceOf(Error);
-		expect(output.message).toBe('test');
+		expect((output as Error).message).toBe('test');
 
 		expect(isDeepStrictEqual(validate(/asd/g, { type: 'object' }), {})).toBeTruthy();
 		done();

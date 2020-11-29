@@ -16,8 +16,8 @@ export default (x: unknown, rule: Partial<StringRule>, propertyPath: string): st
 
 	if (
 		(Number.isFinite(rule.length as number) && rule.length !== str.length)
-		|| (Number.isFinite(rule.min!) && str.length < (rule.min!))
-		|| (Number.isFinite(rule.max!) && str.length > (rule.max!))
+		|| (Number.isFinite(rule.min!) && str.length < rule.min!)
+		|| (Number.isFinite(rule.max!) && str.length > rule.max!)
 		|| (rule.values && !rule.values.includes(str))
 		|| (typeof rule.pattern === 'string' && !str.includes(rule.pattern))
 		|| (rule.pattern instanceof RegExp && !rule.pattern.test(str))

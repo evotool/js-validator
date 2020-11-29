@@ -2,7 +2,7 @@ import { validate } from '../validate';
 import type { DefaultRule, ValidationRule } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
-export default (x: unknown, rule: Partial<ArrayRule>, propertyPath: string, isQuery?: boolean): any[] => {
+export default (x: unknown, rule: Partial<ArrayRule>, propertyPath: string, isQuery?: boolean): unknown[] => {
 	if (!Array.isArray(x)) {
 		if (!isQuery) {
 			throw new ValidationError(propertyPath, x, rule as ArrayRule);
