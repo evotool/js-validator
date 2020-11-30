@@ -14,7 +14,7 @@ ValidationHandlers.set('number', numberHandler);
 ValidationHandlers.set('string', stringHandler);
 ValidationHandlers.set('date', dateHandler);
 
-export type ValidationHandler = (x: unknown, rule: DefaultRule, propertyPath: string, isQuery?: boolean) => any;
+export type ValidationHandler = (x: any, rule: DefaultRule, propertyPath: string, isQuery?: boolean) => any;
 
 export interface DefaultRule<T = any> {
 	default?: any;

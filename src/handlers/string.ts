@@ -1,7 +1,7 @@
 import type { DefaultRule } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
-export default (x: unknown, rule: Partial<StringRule>, propertyPath: string): string => {
+export default (x: any, rule: Partial<StringRule>, propertyPath: string): string => {
 	if (Number.isFinite(x)) {
 		x = (x as number).toString();
 	} else if (typeof x !== 'string') {

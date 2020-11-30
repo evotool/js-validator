@@ -1,7 +1,7 @@
 import type { DefaultRule } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
-export default (x: unknown, rule: Partial<NumberRule>, propertyPath: string): number => {
+export default (x: any, rule: Partial<NumberRule>, propertyPath: string): number => {
 	if ((typeof x !== 'number' && typeof x !== 'string') || !isFinite(x as number) || x === '') {
 		throw new ValidationError(propertyPath, x, rule as NumberRule);
 	}

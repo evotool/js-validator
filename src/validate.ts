@@ -4,7 +4,7 @@ import { isDeepStrictEqual } from 'util';
 import { PrimitiveRule, ValidationHandlers, ValidationRule } from './validation-handlers';
 import { ValidationError } from './ValidationError';
 
-function validatePrimitive(x: unknown, rule: PrimitiveRule, propertyPath: string, isQuery?: boolean): unknown {
+function validatePrimitive(x: any, rule: PrimitiveRule, propertyPath: string, isQuery?: boolean): any {
 	if (!rule) {
 		throw new TypeError('Rule is null or undefined');
 	}
@@ -46,7 +46,7 @@ function validatePrimitive(x: unknown, rule: PrimitiveRule, propertyPath: string
 	return x;
 }
 
-export function validate(x: unknown, rule: ValidationRule, propertyPath: string = 'this', isQuery?: boolean): unknown {
+export function validate(x: any, rule: ValidationRule, propertyPath: string = 'this', isQuery?: boolean): any {
 	if (Array.isArray(rule)) {
 		for (const r of rule) {
 			try {

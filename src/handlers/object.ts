@@ -2,7 +2,7 @@ import { validate } from '../validate';
 import type { DefaultRule, ValidationRule, ValidationSchema } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
-export default (x: unknown, rule: Partial<ObjectRule>, propertyPath: string, isQuery?: boolean): object => {
+export default (x: any, rule: Partial<ObjectRule>, propertyPath: string, isQuery?: boolean): object => {
 	if (!x || typeof x !== 'object' || Array.isArray(x) || x instanceof Symbol) {
 		throw new ValidationError(propertyPath, x, rule as ObjectRule);
 	}
