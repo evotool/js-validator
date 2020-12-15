@@ -47,7 +47,6 @@ describe('number', () => {
 		expect(() => validate(true, { type: 'number' })).toThrowError(ValidationError);
 		expect(() => validate(null, { type: 'number' })).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'number' })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'number' })).toThrowError(ValidationError);
 		expect(() => validate(Error, { type: 'number' })).toThrowError(ValidationError);
 		expect(() => validate(Function, { type: 'number' })).toThrowError(ValidationError);
 		expect(() => validate(RegExp, { type: 'number' })).toThrowError(ValidationError);
@@ -64,9 +63,6 @@ describe('number', () => {
 		expect(() => validate(Symbol('test'), { type: 'number' })).toThrowError(ValidationError);
 		expect(() => validate(Symbol(undefined), { type: 'number' })).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'number', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(undefined, { type: 'number', default: void 0 })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'number', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'number', default: void 0 })).toThrowError(ValidationError);
 		done();
 	});
 });

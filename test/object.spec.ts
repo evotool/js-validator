@@ -5,14 +5,16 @@ import { ValidationError, validate } from '../src';
 
 describe('object', () => {
 	it('should resolve all objects', (done) => {
-		expect(isDeepStrictEqual(validate({}, { type: 'object' }), {})).toBeTruthy();
-		expect(isDeepStrictEqual(validate({ test: 'test' }, { type: 'object' }), {})).toBeTruthy();
-		expect(isDeepStrictEqual(validate({ test: 'test' }, { type: 'object', nested: { type: 'string' } }), { test: 'test' })).toBeTruthy();
-		expect(isDeepStrictEqual(validate({ test: null }, { type: 'object', nested: { type: 'string', optional: true } }), { })).toBeTruthy();
-		expect(isDeepStrictEqual(validate({ test: 'test' }, { type: 'object', schema: { test: { type: 'string' } } }), { test: 'test' })).toBeTruthy();
-		expect(isDeepStrictEqual(validate({}, { type: 'object', schema: { test: { type: 'string', optional: true } } }), {})).toBeTruthy();
-		expect(isDeepStrictEqual(validate(new Error(), { type: 'object' }), {})).toBeTruthy();
-		expect(isDeepStrictEqual(validate(new Date(), { type: 'object' }), {})).toBeTruthy();
+		expect(isDeepStrictEqual(validate({}, { type: 'object' }), {})).toBe(true);
+		expect(isDeepStrictEqual(validate({ test: 'test' }, { type: 'object' }), {})).toBe(true);
+		expect(isDeepStrictEqual(validate({ test: 'test' }, { type: 'object', nested: { type: 'string' } }), { test: 'test' })).toBe(true);
+		expect(isDeepStrictEqual(validate({ test: null }, { type: 'object', nested: { type: 'string', optional: true } }), { })).toBe(true);
+		expect(isDeepStrictEqual(validate({ test: 'test' }, { type: 'object', schema: { test: { type: 'string' } } }), { test: 'test' })).toBe(true);
+		expect(isDeepStrictEqual(validate({}, { type: 'object', schema: { test: { type: 'string', optional: true } } }), {})).toBe(true);
+		expect(isDeepStrictEqual(validate(new Error(), { type: 'object' }), {})).toBe(true);
+		expect(isDeepStrictEqual(validate(new Date(), { type: 'object' }), {})).toBe(true);
+		expect(isDeepStrictEqual(validate({ message: 'test', unsetted: undefined }, { type: 'object', unknown: true }), { message: 'test', unsetted: undefined })).toBe(true);
+		expect(isDeepStrictEqual(validate({ number: '10', unsetted: undefined }, { type: 'object', schema: { number: { type: 'number' } }, unknown: true }), { number: 10, unsetted: undefined })).toBe(true);
 		expect(validate(new Date(), { type: 'object', instanceOf: Date })).toBeInstanceOf(Date);
 		expect(validate(new Error(), { type: 'object', instanceOf: Error })).toBeInstanceOf(Error);
 		expect(validate({ message: 'test' }, { type: 'object', instanceOf: Error })).toBeInstanceOf(Error);
@@ -21,7 +23,7 @@ describe('object', () => {
 		expect(output).toBeInstanceOf(Error);
 		expect((output as Error).message).toBe('test');
 
-		expect(isDeepStrictEqual(validate(/asd/g, { type: 'object' }), {})).toBeTruthy();
+		expect(isDeepStrictEqual(validate(/asd/g, { type: 'object' }), {})).toBe(true);
 		done();
 	});
 
@@ -38,6 +40,7 @@ describe('object', () => {
 		expect(() => validate({}, { type: 'object', schema: { test: { type: 'string' } } })).toThrowError(ValidationError);
 		expect(() => validate({ test: false }, { type: 'object', schema: { test: { type: 'string' } } })).toThrowError(ValidationError);
 		expect(() => validate({ test: null }, { type: 'object', schema: { test: { type: 'string' } } })).toThrowError(ValidationError);
+		expect(() => validate({ number: 'NaN', unsetted: undefined }, { type: 'object', schema: { number: { type: 'number' } }, unknown: true })).toThrowError(ValidationError);
 		done();
 	});
 
@@ -47,7 +50,6 @@ describe('object', () => {
 		expect(() => validate('12,34', { type: 'object' })).toThrowError(ValidationError);
 		expect(() => validate(null, { type: 'object' })).toThrowError(ValidationError); // null is not expected object
 		expect(() => validate(undefined, { type: 'object' })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'object' })).toThrowError(ValidationError);
 		expect(() => validate(Error, { type: 'object' })).toThrowError(ValidationError);
 		expect(() => validate(Function, { type: 'object' })).toThrowError(ValidationError);
 		expect(() => validate(RegExp, { type: 'object' })).toThrowError(ValidationError);
@@ -59,9 +61,7 @@ describe('object', () => {
 		expect(() => validate(Symbol('test'), { type: 'object' })).toThrowError(ValidationError);
 		expect(() => validate(Symbol(undefined), { type: 'object' })).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'object', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(undefined, { type: 'object', default: void 0 })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'object', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'object', default: void 0 })).toThrowError(ValidationError);
+		expect(() => validate(undefined, { type: 'object', unknown: true })).toThrowError(ValidationError);
 		done();
 	});
 });

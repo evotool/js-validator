@@ -69,7 +69,7 @@ describe('common', () => {
 	});
 
 	it('should reject common cases', (done) => {
-		expect(() => validate({}, undefined!)).toThrowError(TypeError);
+		expect(() => validate({}, (undefined)!)).toThrowError(TypeError);
 		expect(() => validate({}, { type: '__unknowntype__' as any })).toThrowError(ValidationError);
 
 		/**
@@ -184,28 +184,28 @@ describe('common', () => {
 		expect(() => validate('', { type: 'boolean' }, undefined, true)).toThrowError(ValidationError);
 		expect(() => validate('', { type: 'date' }, undefined, true)).toThrowError(ValidationError);
 		expect(() => validate('', { type: 'object' }, undefined, true)).toThrowError(ValidationError);
-		expect(isDeepStrictEqual(validate('', { type: 'array' }, undefined, true), [''])).toBe(true); // may be 1 value!
+		expect(isDeepStrictEqual(validate('', { type: 'array', nested: { type: 'string' } }, undefined, true), [''])).toBe(true); // may be 1 value!
 
 		expect(isDeepStrictEqual(validate('1', { type: 'number' }, undefined, true), 1)).toBe(true);
 		expect(isDeepStrictEqual(validate('1', { type: 'string' }, undefined, true), '1')).toBe(true);
 		expect(isDeepStrictEqual(validate('1', { type: 'boolean' }, undefined, true), true)).toBe(true);
 		expect(isDeepStrictEqual(validate('1', { type: 'date' }, undefined, true), new Date('1'))).toBe(true);
 		expect(() => validate('1', { type: 'object' }, undefined, true)).toThrowError(ValidationError);
-		expect(isDeepStrictEqual(validate('1', { type: 'array' }, undefined, true), ['1'])).toBe(true); // may be 1 value!
+		expect(isDeepStrictEqual(validate('1', { type: 'array', nested: { type: 'number' } }, undefined, true), [1])).toBe(true); // may be 1 value!
 
 		expect(isDeepStrictEqual(validate('0', { type: 'number' }, undefined, true), 0)).toBe(true);
 		expect(isDeepStrictEqual(validate('0', { type: 'string' }, undefined, true), '0')).toBe(true);
 		expect(isDeepStrictEqual(validate('0', { type: 'boolean' }, undefined, true), false)).toBe(true);
 		expect(isDeepStrictEqual(validate('0', { type: 'date' }, undefined, true), new Date('0'))).toBe(true);
 		expect(() => validate('0', { type: 'object' }, undefined, true)).toThrowError(ValidationError);
-		expect(isDeepStrictEqual(validate('0', { type: 'array' }, undefined, true), ['0'])).toBe(true); // may be 1 value!
+		expect(isDeepStrictEqual(validate('0', { type: 'array', nested: { type: 'string' } }, undefined, true), ['0'])).toBe(true); // may be 1 value!
 
 		expect(() => validate(['1'], { type: 'number' }, undefined, true)).toThrowError(ValidationError);
 		expect(() => validate(['1'], { type: 'string' }, undefined, true)).toThrowError(ValidationError);
 		expect(() => validate(['1'], { type: 'boolean' }, undefined, true)).toThrowError(ValidationError);
 		expect(() => validate(['1'], { type: 'date' }, undefined, true)).toThrowError(ValidationError);
 		expect(() => validate(['1'], { type: 'object' }, undefined, true)).toThrowError(ValidationError);
-		expect(isDeepStrictEqual(validate(['1'], { type: 'array' }, undefined, true), ['1'])).toBe(true); // array is array!
+		expect(isDeepStrictEqual(validate(['1'], { type: 'array' }, undefined, true), [])).toBe(true); // array is array!
 
 		expect(() => validate(undefined, { type: 'number' }, undefined, true)).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'string' }, undefined, true)).toThrowError(ValidationError);

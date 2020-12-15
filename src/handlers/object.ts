@@ -11,7 +11,7 @@ export default (x: any, rule: Partial<ObjectRule>, propertyPath: string, isQuery
 		return x as object;
 	}
 
-	const out = {};
+	const out: { [key: string]: any } = {};
 
 	if (rule.schema) {
 		const entries = Object.entries(rule.schema);
@@ -23,7 +23,7 @@ export default (x: any, rule: Partial<ObjectRule>, propertyPath: string, isQuery
 				continue;
 			}
 
-			(out as { [key: string]: any })[key] = value;
+			out[key] = value;
 		}
 	} else if (rule.nested) {
 		const keys = Object.keys(x as any);
@@ -36,7 +36,20 @@ export default (x: any, rule: Partial<ObjectRule>, propertyPath: string, isQuery
 				continue;
 			}
 
-			(out as { [key: string]: any })[key] = value;
+			out[key] = value;
+		}
+	}
+
+	if (rule.unknown) {
+		const keys = rule.schema ? Object.keys(rule.schema) : null;
+		let unknownKeys = Object.keys(x);
+
+		if (keys) {
+			unknownKeys = unknownKeys.filter((k) => !keys!.includes(k));
+		}
+
+		for (const key of unknownKeys) {
+			out[key] = x[key];
 		}
 	}
 
@@ -52,4 +65,5 @@ export interface ObjectRule<T = object> extends DefaultRule<T> {
 	instanceOf?: new () => any;
 	nested?: ValidationRule;
 	schema?: ValidationSchema;
+	unknown?: boolean;
 }

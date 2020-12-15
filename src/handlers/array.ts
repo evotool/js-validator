@@ -11,7 +11,7 @@ export default (x: any, rule: Partial<ArrayRule>, propertyPath: string, isQuery?
 		x = x === void 0 ? [] : [x];
 	}
 
-	const len = (x as any[]).length;
+	const len = x.length;
 
 	if (
 		(Number.isFinite(rule.length) && rule.length !== len)
@@ -23,16 +23,27 @@ export default (x: any, rule: Partial<ArrayRule>, propertyPath: string, isQuery?
 
 	let out: any[];
 
-	if (rule.nested) {
+	if (rule.schema) {
+		out = [];
+
+		if (!Array.isArray(rule.schema) || rule.schema.length > len || (rule.schema.length < len && !rule.unknown && !rule.nested)) {
+			throw new ValidationError(propertyPath, x, rule as ArrayRule);
+		}
+
+		for (let i = 0, r: ValidationRule | undefined; i < len; i++) {
+			r = rule.schema[i] || rule.nested;
+			out.push(r ? validate(x[i], r, `${propertyPath}[${i}]`, isQuery) : x[i]);
+		}
+	} else if (rule.nested) {
 		out = [];
 
 		const nestedRule = rule.nested;
 
 		for (let i = 0; i < len; i++) {
-			out.push(validate((x as any[])[i], nestedRule, `${propertyPath}[${i}]`, isQuery));
+			out.push(validate(x[i], nestedRule, `${propertyPath}[${i}]`, isQuery));
 		}
 	} else {
-		out = Array.from(x as any[]);
+		out = rule.unknown ? Array.from(x) : [];
 	}
 
 	return out;
@@ -41,7 +52,9 @@ export default (x: any, rule: Partial<ArrayRule>, propertyPath: string, isQuery?
 export interface ArrayRule<T = any[]> extends DefaultRule<T> {
 	type: 'array';
 	nested?: ValidationRule;
+	schema?: ValidationRule[];
 	length?: number;
 	min?: number;
 	max?: number;
+	unknown?: boolean;
 }

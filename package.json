@@ -1,6 +1,6 @@
 {
 	"name": "@evojs/validator",
-	"version": "0.0.6",
+	"version": "0.1.0",
 	"description": "Strict nodejs validator",
 	"license": "MIT",
 	"main": "index.js",
@@ -17,15 +17,15 @@
 		"util": "^0.12.3"
 	},
 	"devDependencies": {
-		"@evojs/eslint-plugin": "0.0.4",
-		"@types/jest": "^26.0.15",
-		"@types/node": "^14.14.10",
-		"eslint": "^7.14.0",
+		"@evojs/eslint-plugin": "^0.0.5",
+		"@types/jest": "^26.0.19",
+		"@types/node": "^14.14.14",
+		"eslint": "^7.15.0",
 		"fs": "0.0.1-security",
 		"jest": "^26.6.3",
 		"path": "^0.12.7",
 		"ts-jest": "^26.4.4",
-		"typescript": "^4.1.2"
+		"typescript": "^4.1.3"
 	},
 	"jest": {
 		"collectCoverage": true,

@@ -66,7 +66,6 @@ describe('string', () => {
 		expect(() => validate(null, { type: 'string' })).toThrowError(ValidationError);
 		expect(() => validate(null, { type: 'string', default: '' })).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'string' })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'string' })).toThrowError(ValidationError);
 		expect(() => validate(Error, { type: 'string' })).toThrowError(ValidationError);
 		expect(() => validate(Function, { type: 'string' })).toThrowError(ValidationError);
 		expect(() => validate(RegExp, { type: 'string' })).toThrowError(ValidationError);
@@ -83,9 +82,6 @@ describe('string', () => {
 		expect(() => validate(Symbol('test'), { type: 'string' })).toThrowError(ValidationError);
 		expect(() => validate(Symbol(undefined), { type: 'string' })).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'string', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(undefined, { type: 'string', default: void 0 })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'string', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'string', default: void 0 })).toThrowError(ValidationError);
 		done();
 	});
 });

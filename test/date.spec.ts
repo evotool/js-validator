@@ -26,7 +26,7 @@ describe('date', () => {
 		expect(validate(undefined, { type: 'date', optional: true })).toBeUndefined();
 		expect(validate(null, { type: 'date', optional: true })).toBeUndefined();
 		expect(validate(null, { type: 'date', default: null })).toBeNull();
-		expect(validate(void 0, { type: 'date', default: () => Date.now() })).toBeLessThanOrEqual(Date.now());
+		expect(validate(undefined, { type: 'date', default: () => Date.now() })).toBeLessThanOrEqual(Date.now());
 		expect(validate(NaN, { type: 'date', default: NaN })).toBeNaN();
 		expect(validate(Infinity, { type: 'date', default: Infinity })).toBe(Infinity);
 
@@ -46,7 +46,6 @@ describe('date', () => {
 		expect(() => validate('12,34', { type: 'date' })).toThrowError(ValidationError);
 		expect(() => validate(null, { type: 'date' })).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'date' })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'date' })).toThrowError(ValidationError);
 		expect(() => validate(Error, { type: 'date' })).toThrowError(ValidationError);
 		expect(() => validate(Function, { type: 'date' })).toThrowError(ValidationError);
 		expect(() => validate(RegExp, { type: 'date' })).toThrowError(ValidationError);
@@ -62,9 +61,6 @@ describe('date', () => {
 		expect(() => validate(Symbol('test'), { type: 'date' })).toThrowError(ValidationError);
 		expect(() => validate(Symbol(undefined), { type: 'date' })).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'date', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(undefined, { type: 'date', default: void 0 })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'date', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'date', default: void 0 })).toThrowError(ValidationError);
 		done();
 	});
 });

@@ -37,7 +37,6 @@ describe('boolean', () => {
 		expect(() => validate(null, { type: 'boolean', default: true })).toThrowError(ValidationError);
 		expect(() => validate(null, { type: 'boolean', default: false })).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'boolean' })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'boolean' })).toThrowError(ValidationError);
 		expect(() => validate(Error, { type: 'boolean' })).toThrowError(ValidationError);
 		expect(() => validate(Function, { type: 'boolean' })).toThrowError(ValidationError);
 		expect(() => validate(RegExp, { type: 'boolean' })).toThrowError(ValidationError);
@@ -54,9 +53,6 @@ describe('boolean', () => {
 		expect(() => validate(Symbol('test'), { type: 'boolean' })).toThrowError(ValidationError);
 		expect(() => validate(Symbol(undefined), { type: 'boolean' })).toThrowError(ValidationError);
 		expect(() => validate(undefined, { type: 'boolean', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(undefined, { type: 'boolean', default: void 0 })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'boolean', default: undefined })).toThrowError(ValidationError);
-		expect(() => validate(void 0, { type: 'boolean', default: void 0 })).toThrowError(ValidationError);
 		done();
 	});
 });
