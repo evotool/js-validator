@@ -17,10 +17,10 @@
 		"util": "^0.12.3"
 	},
 	"devDependencies": {
-		"@evojs/eslint-plugin": "^0.0.5",
+		"@evojs/eslint-plugin": "^0.0.7",
 		"@types/jest": "^26.0.19",
 		"@types/node": "^14.14.14",
-		"eslint": "^7.15.0",
+		"eslint": "^7.16.0",
 		"fs": "0.0.1-security",
 		"jest": "^26.6.3",
 		"path": "^0.12.7",
