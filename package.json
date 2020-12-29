@@ -13,17 +13,13 @@
 		"test": "jest --coverage --detectOpenHandles",
 		"lint": "eslint \"src/**/*.ts\" -f codeframe"
 	},
-	"dependencies": {
-		"util": "^0.12.3"
-	},
 	"devDependencies": {
-		"@evojs/eslint-plugin": "^0.0.7",
+		"@evojs/eslint-plugin": "^0.1.0",
 		"@types/jest": "^26.0.19",
-		"@types/node": "^14.14.14",
+		"@types/node": "^14.14.16",
 		"eslint": "^7.16.0",
-		"fs": "0.0.1-security",
+		"glob": "^7.1.6",
 		"jest": "^26.6.3",
-		"path": "^0.12.7",
 		"ts-jest": "^26.4.4",
 		"typescript": "^4.1.3"
 	},
