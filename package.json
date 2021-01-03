@@ -1,6 +1,6 @@
 {
 	"name": "@evojs/validator",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Strict nodejs validator",
 	"license": "MIT",
 	"main": "index.js",
@@ -16,8 +16,8 @@
 	"devDependencies": {
 		"@evojs/eslint-plugin": "^0.1.0",
 		"@types/jest": "^26.0.19",
-		"@types/node": "^14.14.16",
-		"eslint": "^7.16.0",
+		"@types/node": "^14.14.19",
+		"eslint": "^7.17.0",
 		"glob": "^7.1.6",
 		"jest": "^26.6.3",
 		"ts-jest": "^26.4.4",
