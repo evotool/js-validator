@@ -48,10 +48,26 @@ function validatePrimitive(x: any, rule: PrimitiveRule, propertyPath: string, is
 
 export function validate(x: any, rule: ValidationRule, propertyPath: string = 'this', isQuery?: boolean): any {
 	if (Array.isArray(rule)) {
+		let hasOptional = false;
+
 		for (const r of rule) {
 			try {
-				return validatePrimitive(x, r, propertyPath, isQuery);
+				const value = validatePrimitive(x, r, propertyPath, isQuery);
+
+				if (r.optional && value === void 0) {
+					if (!hasOptional) {
+						hasOptional = true;
+					}
+
+					continue;
+				}
+
+				return value;
 			} catch {}
+		}
+
+		if (hasOptional) {
+			return;
 		}
 
 		throw new ValidationError(propertyPath, x, rule);

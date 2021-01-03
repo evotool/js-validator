@@ -2,6 +2,18 @@ import { validate } from '../validate';
 import type { DefaultRule, ValidationRule, ValidationSchema } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
+function parseNested(x: any, out: { [key: string]: any }, nestedRule: ValidationRule, keys: string[], propertyPath: string, isQuery: boolean | undefined): void {
+	for (const key of keys) {
+		const value = validate((x as { [key: string]: any })[key], nestedRule, `${propertyPath}.${key}`, isQuery);
+
+		if (value === void 0) {
+			continue;
+		}
+
+		out[key] = value;
+	}
+}
+
 export default (x: any, rule: Partial<ObjectRule>, propertyPath: string, isQuery?: boolean): object => {
 	if (!x || typeof x !== 'object' || Array.isArray(x) || x instanceof Symbol) {
 		throw new ValidationError(propertyPath, x, rule as ObjectRule);
@@ -25,22 +37,24 @@ export default (x: any, rule: Partial<ObjectRule>, propertyPath: string, isQuery
 
 			out[key] = value;
 		}
+
+		if (rule.nested) {
+			const schemaKeys = entries.map((x) => x[0]);
+			const nestedKeys = Object.keys(x).filter((k) => !schemaKeys.includes(k));
+
+			if (nestedKeys.length > 0) {
+				parseNested(x, out, rule.nested, nestedKeys, propertyPath, isQuery);
+			}
+		}
 	} else if (rule.nested) {
 		const keys = Object.keys(x as any);
-		const nestedRule = rule.nested;
 
-		for (const key of keys) {
-			const value = validate((x as { [key: string]: any })[key], nestedRule, `${propertyPath}.${key}`, isQuery);
-
-			if (value === void 0) {
-				continue;
-			}
-
-			out[key] = value;
+		if (keys.length > 0) {
+			parseNested(x, out, rule.nested!, keys, propertyPath, isQuery);
 		}
 	}
 
-	if (rule.unknown) {
+	if (rule.unknown && !rule.nested) {
 		const keys = rule.schema ? Object.keys(rule.schema) : null;
 		let unknownKeys = Object.keys(x);
 
