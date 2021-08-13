@@ -1,77 +1,80 @@
 import { isDeepStrictEqual } from 'util';
 
 /* eslint-disable no-throw-literal */
-import { PrimitiveRule, ValidationHandlers, ValidationRule } from './validation-handlers';
+import type { PrimitiveRule, ValidationRule } from './validation-handlers';
+import { ValidationHandlers } from './validation-handlers';
 import { ValidationError } from './ValidationError';
 
 function validatePrimitive(x: any, rule: PrimitiveRule, propertyPath: string, isQuery?: boolean): any {
-	if (!rule) {
-		throw new TypeError('Rule is null or undefined');
-	}
+  if (!rule) {
+    throw new TypeError('Rule is null or undefined');
+  }
 
-	try {
-		const validator = ValidationHandlers.get(rule.type);
+  try {
+    const validator = ValidationHandlers.get(rule.type);
 
-		if (!validator) {
-			throw new ValidationError(propertyPath, x, rule);
-		}
+    if (!validator) {
+      throw new ValidationError(propertyPath, x, rule);
+    }
 
-		x = validator(x, rule as any, propertyPath, isQuery);
-	} catch (err) {
-		try {
-			if (rule.default === void 0) {
-				throw void 0;
-			}
+    x = validator(x, rule as any, propertyPath, isQuery);
+  } catch (err) {
+    try {
+      if (rule.default === void 0) {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw void 0;
+      }
 
-			const defaultValue = typeof rule.default === 'function' ? rule.default(x, rule) : rule.default;
+      const defaultValue = typeof rule.default === 'function' ? rule.default(x, rule) : rule.default;
 
-			if (x === void 0) {
-				x = defaultValue;
-			} else if (!isDeepStrictEqual(x, defaultValue)) {
-				throw void 0;
-			}
-		} catch {
-			if (rule.optional) {
-				return;
-			} else {
-				throw err;
-			}
-		}
-	}
+      if (x === void 0) {
+        x = defaultValue;
+      } else if (!isDeepStrictEqual(x, defaultValue)) {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw void 0;
+      }
+    } catch {
+      if (rule.optional) {
+        return;
+      }
 
-	if (rule.parse) {
-		return rule.parse(x, rule);
-	}
+      throw err;
+    }
+  }
 
-	return x;
+  if (rule.parse) {
+    return rule.parse(x, rule);
+  }
+
+  return x;
 }
 
 export function validate(x: any, rule: ValidationRule, propertyPath: string = 'this', isQuery?: boolean): any {
-	if (Array.isArray(rule)) {
-		let hasOptional = false;
+  if (Array.isArray(rule)) {
+    let hasOptional = false;
 
-		for (const r of rule) {
-			try {
-				const value = validatePrimitive(x, r, propertyPath, isQuery);
+    for (const r of rule) {
+      try {
+        const value = validatePrimitive(x, r, propertyPath, isQuery);
 
-				if (r.optional && value === void 0) {
-					if (!hasOptional) {
-						hasOptional = true;
-					}
+        if (r.optional && value === void 0) {
+          if (!hasOptional) {
+            hasOptional = true;
+          }
 
-					continue;
-				}
+          continue;
+        }
 
-				return value;
-			} catch {}
-		}
+        return value;
+      } catch {}
+    }
 
-		if (hasOptional) {
-			return;
-		}
+    if (hasOptional) {
+      return;
+    }
 
-		throw new ValidationError(propertyPath, x, rule);
-	}
+    throw new ValidationError(propertyPath, x, rule);
+  }
 
-	return validatePrimitive(x, rule, propertyPath, isQuery);
+  return validatePrimitive(x, rule, propertyPath, isQuery);
 }
