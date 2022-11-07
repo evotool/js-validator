@@ -1,6 +1,6 @@
 {
   "name": "@evojs/validator",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Strict nodejs validator",
   "license": "MIT",
   "main": "index.js",
@@ -11,57 +11,22 @@
     "prepublishOnly": "npm run build && npm run test && node tools/prepublish.js",
     "release": "RELEASE_MODE=1 npm run prepublishOnly && npm publish --access public dist/",
     "test": "jest --coverage --detectOpenHandles",
-    "lint": "eslint \"src/**/*.ts\" -f codeframe"
+    "lint": "eslint \"src/**/*.ts\" --fix --max-warnings=0"
   },
   "devDependencies": {
-    "@evojs/eslint-plugin": "^1.5.10",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.6.1",
-    "eslint": "^7.32.0",
-    "glob": "^7.1.7",
-    "jest": "^27.0.6",
-    "ts-jest": "^27.0.4",
-    "typescript": "^4.3.5"
+    "@evojs/eslint-plugin": "^5.0.1",
+    "@types/jest": "^29.2.2",
+    "@types/node": "^16.18.3",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "eslint": "^8.27.0",
+    "glob": "^8.0.3",
+    "jest": "^29.2.2",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.8.4"
   },
-  "eslintConfig": {
-    "ignorePatterns": [
-      "/dist/",
-      "coverage/",
-      "node_modules/"
-    ],
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "plugins": [
-      "@evojs"
-    ],
-    "extends": [
-      "plugin:@evojs/recommended"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2021
-    },
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts"
-        ],
-        "env": {
-          "node": true
-        },
-        "plugins": [
-          "@evojs"
-        ],
-        "extends": [
-          "plugin:@evojs/recommended-typescript"
-        ],
-        "parserOptions": {
-          "project": "tsconfig.json",
-          "sourceType": "module"
-        }
-      }
-    ]
+  "engines": {
+    "node": "^10.12.0 || >=12.0.0"
   },
   "jest": {
     "collectCoverage": true,
@@ -76,12 +41,12 @@
     "testEnvironment": "node",
     "testRegex": ".spec.ts$",
     "transform": {
-      "^.+\\.(ts|js)$": "ts-jest"
-    },
-    "globals": {
-      "ts-jest": {
-        "tsconfig": "tsconfig.spec.json"
-      }
+      "^.+\\.(ts|js)$": [
+        "ts-jest",
+        {
+          "tsconfig": "tsconfig.spec.json"
+        }
+      ]
     }
   },
   "author": {

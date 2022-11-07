@@ -1,7 +1,7 @@
 import type { DefaultRule } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
-export default (x: any, rule: Partial<BooleanRule>, propertyPath: string, isQuery?: boolean): boolean => {
+export const booleanHandler = (x: any, rule: Partial<BooleanRule>, propertyPath: string, isQuery?: boolean): boolean => {
   if (x === true || (isQuery && x === '1') || rule.truthy?.includes(x)) {
     return true;
   }

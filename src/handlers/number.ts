@@ -1,7 +1,7 @@
 import type { DefaultRule } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
-export default (x: any, rule: Partial<NumberRule>, propertyPath: string): number => {
+export const numberHandler = (x: any, rule: Partial<NumberRule>, propertyPath: string): number => {
   if ((typeof x !== 'number' && typeof x !== 'string') || !isFinite(x as number) || x === '') {
     throw new ValidationError(propertyPath, x, rule as NumberRule);
   }
@@ -16,10 +16,10 @@ export default (x: any, rule: Partial<NumberRule>, propertyPath: string): number
   }
 
   if (
-    (rule.integer && !Number.isInteger(num))
-		|| (Number.isFinite(rule.min) && num < rule.min!)
-		|| (Number.isFinite(rule.max) && num > rule.max!)
-		|| (rule.values && !rule.values.includes(num))
+    (rule.integer && !Number.isInteger(num)) ||
+		(Number.isFinite(rule.min) && num < rule.min!) ||
+		(Number.isFinite(rule.max) && num > rule.max!) ||
+		(rule.values && !rule.values.includes(num))
   ) {
     throw new ValidationError(propertyPath, x, rule as NumberRule);
   }

@@ -5,7 +5,12 @@ import type { PrimitiveRule, ValidationRule } from './validation-handlers';
 import { ValidationHandlers } from './validation-handlers';
 import { ValidationError } from './ValidationError';
 
-function validatePrimitive(x: any, rule: PrimitiveRule, propertyPath: string, isQuery?: boolean): any {
+function validatePrimitive(
+  x: any,
+  rule: PrimitiveRule,
+  propertyPath: string,
+  isQuery?: boolean,
+): any {
   if (!rule) {
     throw new TypeError('Rule is null or undefined');
   }
@@ -25,7 +30,8 @@ function validatePrimitive(x: any, rule: PrimitiveRule, propertyPath: string, is
         throw void 0;
       }
 
-      const defaultValue = typeof rule.default === 'function' ? rule.default(x, rule) : rule.default;
+      const defaultValue =
+        typeof rule.default === 'function' ? rule.default(x, rule) : rule.default;
 
       if (x === void 0) {
         x = defaultValue;
@@ -49,7 +55,12 @@ function validatePrimitive(x: any, rule: PrimitiveRule, propertyPath: string, is
   return x;
 }
 
-export function validate(x: any, rule: ValidationRule, propertyPath: string = 'this', isQuery?: boolean): any {
+export function validate(
+  x: any,
+  rule: ValidationRule,
+  propertyPath: string = 'this',
+  isQuery?: boolean,
+): any {
   if (Array.isArray(rule)) {
     let hasOptional = false;
 
@@ -58,9 +69,7 @@ export function validate(x: any, rule: ValidationRule, propertyPath: string = 't
         const value = validatePrimitive(x, r, propertyPath, isQuery);
 
         if (r.optional && value === void 0) {
-          if (!hasOptional) {
-            hasOptional = true;
-          }
+          hasOptional ||= true;
 
           continue;
         }

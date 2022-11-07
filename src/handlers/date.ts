@@ -1,7 +1,7 @@
 import type { DefaultRule } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
-export default (x: any, rule: Partial<DateRule>, propertyPath: string): Date => {
+export const dateHandler = (x: any, rule: Partial<DateRule>, propertyPath: string): Date => {
   if (!(x instanceof Date) && typeof x !== 'string' && typeof x !== 'number') {
     throw new ValidationError(propertyPath, x, rule as DateRule);
   }

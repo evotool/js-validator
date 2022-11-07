@@ -2,7 +2,12 @@ import { validate } from '../validate';
 import type { DefaultRule, ValidationRule } from '../validation-handlers';
 import { ValidationError } from '../ValidationError';
 
-export default (x: any, rule: Partial<ArrayRule>, propertyPath: string, isQuery?: boolean): any[] => {
+export const arrayHandler = (
+  x: any,
+  rule: Partial<ArrayRule>,
+  propertyPath: string,
+  isQuery?: boolean,
+): any[] => {
   if (!Array.isArray(x)) {
     if (!isQuery) {
       throw new ValidationError(propertyPath, x, rule as ArrayRule);
@@ -14,9 +19,9 @@ export default (x: any, rule: Partial<ArrayRule>, propertyPath: string, isQuery?
   const len = x.length;
 
   if (
-    (Number.isFinite(rule.length) && rule.length !== len)
-		|| (Number.isFinite(rule.min) && len < rule.min!)
-		|| (Number.isFinite(rule.max) && len > rule.max!)
+    (Number.isFinite(rule.length) && rule.length !== len) ||
+    (Number.isFinite(rule.min) && len < rule.min!) ||
+    (Number.isFinite(rule.max) && len > rule.max!)
   ) {
     throw new ValidationError(propertyPath, x, rule as ArrayRule);
   }
@@ -26,7 +31,11 @@ export default (x: any, rule: Partial<ArrayRule>, propertyPath: string, isQuery?
   if (rule.schema) {
     out = [];
 
-    if (!Array.isArray(rule.schema) || rule.schema.length > len || (rule.schema.length < len && !rule.unknown && !rule.nested)) {
+    if (
+      !Array.isArray(rule.schema) ||
+      rule.schema.length > len ||
+      (rule.schema.length < len && !rule.unknown && !rule.nested)
+    ) {
       throw new ValidationError(propertyPath, x, rule as ArrayRule);
     }
 

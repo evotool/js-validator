@@ -14,7 +14,7 @@ function parseNested(x: any, out: Record<string, any>, nestedRule: ValidationRul
   }
 }
 
-export default (x: any, rule: Partial<ObjectRule>, propertyPath: string, isQuery?: boolean): object => {
+export const objectHandler = (x: any, rule: Partial<ObjectRule>, propertyPath: string, isQuery?: boolean): object => {
   if (!x || typeof x !== 'object' || Array.isArray(x) || x instanceof Symbol) {
     throw new ValidationError(propertyPath, x, rule as ObjectRule);
   }
